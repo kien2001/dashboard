@@ -32,16 +32,15 @@ const Navbar = () => {
     const handleResize = ()=>{
       dispatch({ type: "SET_SCREEN_SIZE", size: window.innerWidth })
     }
-    handleResize()
     window.addEventListener("resize", handleResize)
-    return ()=>{
-      window.removeEventListener("resize", handleResize)
-    }
+    return ()=> window.removeEventListener("resize", handleResize)
   }, [])
+  console.log(screenSize);
   useEffect(()=>{
     screenSize <= 900 ? dispatch({ type: "CHANGE_MENU_STATE",  stateMenu: false }): 
     dispatch({ type: "CHANGE_MENU_STATE", stateMenu: true })
   }, [screenSize])
+
   return (
     <div className='flex justify-between p-2 md:ml-6 md:mr-6 relative'>
       <NavButton title="Menu" customFunc={() => dispatch({ type: 'CHANGE_MENU_STATE', stateMenu: !activeMenu })} color='blue' icon={<AiOutlineMenu />} />

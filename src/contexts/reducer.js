@@ -6,7 +6,7 @@ export const initialState = {
         userProfile: false,
         notification: false
     },
-    screenSize: undefined
+    screenSize: 1000
 }
 
 export const reducer = (state, action) => {
