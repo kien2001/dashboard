@@ -6,13 +6,15 @@ import { Header } from '../components';
 
 const Employees = () => {
   return (
-    <div className='m-2 md:m-10 p-2 md:p-10 bg-white rounded-3xl'>
+    <div className='m-2 md:m-6 p-2 md:p-10 dark:bg-secondary-dark-bg bg-white rounded-3xl'>
       <Header category="Pages" title='Employees' />
       <GridComponent 
         dataSource={employeesData}
         allowPaging = {true}
         width='auto'
         toolbar = {['Search']}
+        style={{fontFamily: "cursive"}}
+
       >
         <ColumnsDirective>
           {employeesGrid.map((item, index) => (

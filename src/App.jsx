@@ -11,14 +11,20 @@ import { useStateValue } from './contexts/contextProvider';
 import './App.css';
 
 function App() {
-  const [{ activeMenu }, dispatch] = useStateValue();
+  const [{ activeMenu, themeSettings }, dispatch] = useStateValue();
+  const currentColor =  localStorage.getItem('colorMode');
+  const currentMode =  localStorage.getItem('themeMode');
   return (
-    <div>
+    <div className={currentMode === "Dark" ? 'dark' : ''}>
       <ReactRouter>
         <div className="flex relative dark:bg-main-dark-bg">
           <div className="fixed right-4 bottom-4" style={{ zIndex: '1000' }}>
             <TooltipComponent content="Settings" position="LeftCenter">
-              <button type='button' className='text-3xl p-3 hover:drop-shadow-xl hover:bg-light-gray text-white' style={{ background: 'blue', borderRadius: '50%' }}>
+              <button
+                type='button'
+                className='text-3xl p-3 hover:drop-shadow-xl hover:bg-light-gray text-white'
+                style={{ background: currentColor, borderRadius: '50%' }}
+                onClick={() => dispatch({ type: "CHANGE_THEME_SETTINGS", stateSetting: true })}>
                 <FiSettings />
               </button>
             </TooltipComponent>
@@ -32,9 +38,10 @@ function App() {
               <Sidebar />
             </div>
           )}
+          {/* md:w-[calc(100%_-_280px)] */}
           <div className={
             activeMenu
-              ? 'dark:bg-main-dark-bg  bg-main-bg min-h-screen md:ml-72 w-full'
+              ? 'dark:bg-main-dark-bg  bg-main-bg min-h-screen md:ml-72 w-full md:overflow-hidden '
               : 'bg-main-bg dark:bg-main-dark-bg w-full min-h-screen flex-2 '
           }>
             <div className="fixed md:static bg-main-bg dark:bg-main-dark-bg navbar w-full">
@@ -42,6 +49,7 @@ function App() {
             </div>
 
             <div>
+              {themeSettings && <ThemeSettings />}
               <Routes>
                 {/* dashboard  */}
                 <Route path="/" element={(<Ecommerce />)} />

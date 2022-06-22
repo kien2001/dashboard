@@ -6,9 +6,9 @@ import { DropDownListComponent } from '@syncfusion/ej2-react-dropdowns';
 
 import { Stacked, Pie, Button, LineChart, SparkLine } from '../components';
 import { earningData, medicalproBranding, recentTransactions, weeklyStats, dropdownData, SparklineAreaData, ecomPieChartData } from '../data/dummy';
-import { useStateValue } from '../contexts/contextProvider';
-import product9 from '../data/product9.jpg';
+
 const Ecommerce = () => {
+  const currentColor =  localStorage.getItem('colorMode');
   return (
     <div className='mt-12'>
       <div className="flex flex-wrap lg:flex-nowrap justify-center">
@@ -20,7 +20,7 @@ const Ecommerce = () => {
             </div>
           </div>
           <div className="mt-6">
-            <Button color="white" bgColor="blue" text="Download" borderRadius="10px" size="md" />
+            <Button color="white" bgColor={currentColor} text="Download" borderRadius="10px" size="md" />
           </div>
         </div>
         <div className="flex m-3 justify-center flex-wrap gap-2 items-center">
@@ -69,10 +69,10 @@ const Ecommerce = () => {
                 <p className='text-gray-500 mt-1'>Expense</p>
               </div>
               <div className="mt-5">
-              <SparkLine currentColor='blue' id="line-sparkLine" type="Line" height="80px" width="250px" data={SparklineAreaData} color='blue' />
+              <SparkLine currentColor={currentColor} id="line-sparkLine" type="Line" height="80px" width="250px" data={SparklineAreaData} color={currentColor} />
               </div>
               <div className="mt-10">
-                <Button color="white" bgColor="blue" text = "Download Report" borderRadius="10px" />
+                <Button color="white" bgColor={currentColor} text = "Download Report" borderRadius="10px" />
               </div>
             </div>
             <div>

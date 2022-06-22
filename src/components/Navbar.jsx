@@ -28,41 +28,39 @@ const NavButton = ({ title, customFunc, icon, color, dotColor }) => (
 );
 const Navbar = () => {
   const [{ navState, screenSize, activeMenu }, dispatch] = useStateValue();
+  const currentColor =  localStorage.getItem('colorMode');
+  /* A hook that is used to detect the screen size. */
   useEffect(() => {
-    const handleResize = ()=>{
+    const handleResize = () => {
       dispatch({ type: "SET_SCREEN_SIZE", size: window.innerWidth })
     }
     window.addEventListener("resize", handleResize)
-    return ()=> window.removeEventListener("resize", handleResize)
+    return () => window.removeEventListener("resize", handleResize)
   }, [])
   console.log(screenSize);
-  useEffect(()=>{
-    screenSize <= 900 ? dispatch({ type: "CHANGE_MENU_STATE",  stateMenu: false }): 
-    dispatch({ type: "CHANGE_MENU_STATE", stateMenu: true })
+  /* Checking if the screen size is less than 900px, if it is, it will set the stateMenu to false,
+  otherwise, it will set the stateMenu to true. */
+  useEffect(() => {
+    screenSize <= 900 ? dispatch({ type: "CHANGE_MENU_STATE", stateMenu: false }) :
+      dispatch({ type: "CHANGE_MENU_STATE", stateMenu: true })
   }, [screenSize])
 
   return (
-    <div className='flex justify-between p-2 md:ml-6 md:mr-6 relative'>
-      <NavButton title="Menu" customFunc={() => dispatch({ type: 'CHANGE_MENU_STATE', stateMenu: !activeMenu })} color='blue' icon={<AiOutlineMenu />} />
+    <div className='flex justify-between p-2 md:mx-2 relative'>
+      <NavButton title="Menu" customFunc={() => dispatch({ type: 'CHANGE_MENU_STATE', stateMenu: !activeMenu })} color={currentColor} icon={<AiOutlineMenu />} />
       <div className="flex">
-        <NavButton
-          title='Cart'
-          customFunc={() => dispatch({ type: "HANDLE_CLICK", name: 'cart' })}
-          color='blue'
-          icon={<FiShoppingCart />}
-        />
         <NavButton
           title='Chat'
           dotColor='#03C9D7'
           customFunc={() => dispatch({ type: "HANDLE_CLICK", name: 'chat' })}
-          color='blue'
+          color={currentColor}
           icon={<BsChatLeft />}
         />
         <NavButton
           title='Notifications'
           dotColor='#03C9D7'
           customFunc={() => dispatch({ type: "HANDLE_CLICK", name: 'notification' })}
-          color='blue'
+          color={currentColor}
           icon={<RiNotification3Line />}
         />
         <TooltipComponent content="Profile" position='BottomCenter'>
@@ -75,7 +73,6 @@ const Navbar = () => {
             </p>
           </div>
         </TooltipComponent>
-        {navState.cart && <Cart />}
         {navState.chat && <Chat />}
         {navState.userProfile && <UserProfile />}
         {navState.notification && <Notification />}

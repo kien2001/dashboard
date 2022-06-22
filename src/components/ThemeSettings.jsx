@@ -1,8 +1,77 @@
-import React from 'react'
-
+import React, { useState } from 'react'
+import { MdOutlineCancel } from 'react-icons/md'
+import { BsCheck } from 'react-icons/bs'
+import { TooltipComponent } from '@syncfusion/ej2-react-popups'
+import { themeColors } from '../data/dummy'
+import { useStateValue } from '../contexts/contextProvider'
 const ThemeSettings = () => {
+  const [state, dispatch] = useStateValue();
+  const currentColor =  localStorage.getItem('colorMode') || state.currentColor;
+  const currentMode =  localStorage.getItem('themeMode') || state.currentMode;
   return (
-    <div>ThemeSettings</div>
+    <div className='bg-half-transparent w-screen fixed nav-item top-0 right-0'>
+      <div className="float-right h-screen dark:text-gray-200 bg-white dark:[#484B52] w-400 dark:bg-main-dark-bg">
+        <div className="flex justify-between items-center p-4 ml-4">
+          <p className='font-semibold text-xl'>Settings</p>
+          <button type='button'
+            onClick={() => dispatch({ type: "CHANGE_THEME_SETTINGS", stateSetting: false })}
+            style={{ color: 'rgb(153, 171, 180)', borderRadius: '50%' }}
+            className="text-2xl p-3 hover:drop-shadow-xl hover:bg-light-gray"
+          >
+            <MdOutlineCancel />
+          </button>
+        </div>
+        <div className="flex-col border-t-1 border-color p-4 ml-4">
+          <p className='font-semibold text-lg'>Theme Options</p>
+          <div className="mt-4">
+            <input type="radio"
+              id='light'
+              name='theme'
+              value="Light"
+              className='cursor-pointer'
+              onChange={(e) => dispatch({type: "SET_CURRENT_MODE", theme: e.target.value})}
+              checked={currentMode === "Light"}
+            />
+            <label htmlFor="light"
+              className='ml-2 text-md cursor-pointer'
+            >Light</label>
+          </div>
+          <div className="mt-4">
+            <input type="radio"
+              id='dark'
+              name='theme'
+              value="Dark"
+              className='cursor-pointer'
+              onChange={(e) => dispatch({type: "SET_CURRENT_MODE", theme: e.target.value})}
+              checked={currentMode === "Dark"}
+            />
+            <label htmlFor="dark"
+              className='ml-2 text-md cursor-pointer'
+            >Dark</label>
+          </div>
+        </div>
+        <div className="flex-col border-t-1 border-color p-4 ml-4">
+          <p className='font-semibold text-lg'>Theme Colors</p>
+          <div className="flex gap-3">
+            {themeColors.map((item, index) => (
+              <TooltipComponent
+                key={index}
+                content={item.name}
+                position="TopCenter"
+              >
+                <div className="relative flex mt-2  gap-5 cursor-pointer items-center">
+                  <button type='button' className='h-10 w-10 rounded-full cursor-pointer' style={{ background: item.color }}
+                    onClick={()=>dispatch({ type: "SET_CURRENT_COLOR", color: item.color })}
+                  >
+                    <BsCheck className={`ml-2 text-2xl text-white ${item.color === currentColor ? 'block' : 'hidden'}`} />
+                  </button>
+                </div>
+              </TooltipComponent>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
   )
 }
 
